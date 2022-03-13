@@ -1,17 +1,21 @@
 from pathlib import Path
 
+import click
 
 from .core import mkdir, load_param, fullpath
 
 
-PARAMETER = Path('test/data/test1.yml')
-
-def command():
-    param = load_param(PARAMETER)
-    print(param)
+@click.command()
+@click.option('--file', type=Path, required=True, help='parameter file.')
+@click.option('--debug', is_flag=True)
+@click.option('--verbose', is_flag=True)
+def command(file: Path, debug: bool, verbose: bool):
+    param = load_param(file)
+    if verbose:
+        click.echo(param)
     for camera in param['cameras']:
         directory = fullpath(param, camera)
-        print(directory)
-#        mkdir(directory)
-
-
+        if verbose:
+            click.echo(directory)
+        if not debug:
+            mkdir(directory)
