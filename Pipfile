@@ -8,3 +8,7 @@ pyyaml = "*"
 click = "*"
 
 [dev-packages]
+
+[scripts]
+build = "python setup.py sdist"
+install = "pip install -e ."
